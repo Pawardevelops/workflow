@@ -1,25 +1,32 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { useState } from 'react';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import WorkflowBuilder from './pages/WorkflowBuilder';
+import AnalyticsDashboard from './pages/AnalyticsDashboard';
+import Navbar from './routes';
 
-function App() {
+const App = () => {
+  const [workflowData, setWorkflowData] = useState({ nodes: [], edges: [] });
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Router>
+      <Navbar />
+      <Routes>
+        <Route
+          path="/"
+          element={
+            <WorkflowBuilder
+              workflowData={workflowData}
+              setWorkflowData={setWorkflowData}
+            />
+          }
+        />
+        <Route
+          path="/analytics"
+          element={<AnalyticsDashboard workflowData={workflowData.nodes} />}
+        />
+      </Routes>
+    </Router>
   );
-}
+};
 
 export default App;
